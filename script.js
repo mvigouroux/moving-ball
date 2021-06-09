@@ -50,22 +50,43 @@ const rate = 50;
 let lastDirection = 'ArrowRight';
 let jumping = false;
 
+// Traj manuel
+const trajJump1 = [
+  { x: 0, y: 3},
+  { x: 2, y: 8},
+  { x: 4, y: 16},
+  { x: 6, y: 20},
+  { x: 8, y: 21},
+  { x: 10, y: 18},
+  { x: 12, y: 12},
+  { x: 14, y: 5},
+  { x: 16, y: 0},
+];
+
 // Traj realiste
 const g = -9.81;
 const m = 30;
 const p = 5;
 const max = 122; 
-
+let finish = false;
 const trajJump2 = [...Array(max).keys()].reduce((acc, i) => {
-  if ((g/(2*m))*Math.pow(i, 2) + p*i + 0 < 0) {
+  if (finish) {
     return acc;
+  }
+
+  if ((g/(2*m))*Math.pow(i, 2) + p*i + 0 < 0) {
+    finish = true;
+    acc.push({
+      x: i*2,
+      y: 0
+    });
   } else {
     acc.push({
       x: i*2,
       y: (g/(2*m))*Math.pow(i, 2) + p*i + 0
     });
-    return acc;
   }
+  return acc;
 }, []);
 
 
@@ -135,20 +156,8 @@ class Character {
     return this.perso;
   }
 }
-
-
-// Traj manuel
-const trajJump1 = [
-  { x: 0, y: 3},
-  { x: 2, y: 8},
-  { x: 4, y: 16},
-  { x: 6, y: 20},
-  { x: 8, y: 21},
-  { x: 10, y: 18},
-  { x: 12, y: 12},
-  { x: 14, y: 5},
-  { x: 16, y: 0},
-];
+const boule = new Character();
+screen.appendChild(boule.Perso);
 
 
 
